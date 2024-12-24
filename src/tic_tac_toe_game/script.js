@@ -5,35 +5,41 @@ let currPlayer = playerO;
 let gameOver = false;
 
 window.onload = function () {
-    setGame();
+    drawGameBoard();
 }
 
-function setGame() {
+/**
+ * Draw the game's board; is called in the start of each round of the game..
+ */
+function drawGameBoard() {
     board = [
         [' ', ' ', ' '],
         [' ', ' ', ' '],
         [' ', ' ', ' ']
     ]
 
-    for (let r = 0; r < 3; r++) {
-        for (let c = 0; c < 3; c++) {
-            let tile = document.createElement("div");
-            tile.id = r.toString() + "-" + c.toString();
+    for (let row = 0; row < 3; row++) {
+        for (let column = 0; column < 3; column++) {
+            const tile = document.createElement("div");
+            tile.id = row.toString() + "-" + column.toString();
             tile.classList.add("tile");
-            if (r === 0 || r === 1) {
+            if (row === 0 || row === 1) {
                 tile.classList.add("horizontal-line");
             }
-            if (c === 0 || c === 1) {
+            if (column === 0 || column === 1) {
                 tile.classList.add("vertical-line");
             }
             tile.innerText = "";
-            tile.addEventListener("click", setTile);
+            tile.addEventListener("click", onTileClicked);
             document.getElementById("board").appendChild(tile);
         }
     }
 }
 
-function setTile() {
+/**
+ * Will be called whenever a tile is clicked.
+ */
+function onTileClicked() {
     if (gameOver) {
         return;
     }
