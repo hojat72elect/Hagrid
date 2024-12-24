@@ -68,9 +68,12 @@ function onTileClicked() {
 }
 
 function checkWinner() {
+
+    let winner = null;
     //horizontally, check 3 rows
     for (let r = 0; r < 3; r++) {
         if (board[r][0] === board[r][1] && board[r][1] === board[r][2] && board[r][0] !== ' ') {
+            winner = board[r][0];
             //if we found the winning row
             //apply the winner style to that row
             for (let i = 0; i < 3; i++) {
@@ -78,6 +81,7 @@ function checkWinner() {
                 tile.classList.add("winner");
             }
             gameOver = true;
+            document.getElementById("gameStatus").innerText = `Player ${winner} wins!`;
             return;
         }
     }
@@ -85,6 +89,7 @@ function checkWinner() {
     //vertically, check 3 columns
     for (let c = 0; c < 3; c++) {
         if (board[0][c] === board[1][c] && board[1][c] === board[2][c] && board[0][c] !== ' ') {
+            winner = board[0][c];
             //if we found the winning col
             //apply the winner style to that col
             for (let i = 0; i < 3; i++) {
@@ -92,22 +97,26 @@ function checkWinner() {
                 tile.classList.add("winner");
             }
             gameOver = true;
+            document.getElementById("gameStatus").innerText = `Player ${winner} wins!`;
             return;
         }
     }
 
     //diagonally
     if (board[0][0] === board[1][1] && board[1][1] === board[2][2] && board[0][0] !== ' ') {
+        winner = board[0][0];
         for (let i = 0; i < 3; i++) {
             let tile = document.getElementById(i.toString() + "-" + i.toString());
             tile.classList.add("winner");
         }
         gameOver = true;
+        document.getElementById("gameStatus").innerText = `Player ${winner} wins!`;
         return;
     }
 
     //anti-diagonally
     if (board[0][2] === board[1][1] && board[1][1] === board[2][0] && board[0][2] !== ' ') {
+        winner = board[0][2];
         //0-2
         let tile = document.getElementById("0-2");
         tile.classList.add("winner");
@@ -120,6 +129,12 @@ function checkWinner() {
         tile = document.getElementById("2-0");
         tile.classList.add("winner");
         gameOver = true;
+        document.getElementById("gameStatus").innerText = `Player ${winner} wins!`;
 
+    }
+
+    if (board.flat().every(cell => cell !== ' ')) {
+        document.getElementById("gameStatus").innerText = "It's a draw!";
+        gameOver = true;
     }
 }
